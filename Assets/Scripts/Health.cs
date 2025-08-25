@@ -1,8 +1,16 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
 
 public class Health : MonoBehaviour {
+
+    [SerializeField]
+    new SpriteRenderer renderer;
+    [SerializeField]
+    float iframes;
+    bool invincible = false;
 
     public bool evil;
 
@@ -45,7 +53,10 @@ public class Health : MonoBehaviour {
     }
 
     public void TakeDamage(int damage) {
+        if (invincible)
+            return;
         CurrentHealth -= damage;
+        StartCoroutine(GiveIFrames());
     }
 
     public void Heal(int value) {
@@ -62,7 +73,23 @@ public class Health : MonoBehaviour {
 
     }
 
+    IEnumerator GiveIFrames() {
+        if (iframes == 0)
+            yield break;
+        yield return null;
+        invincible = true;
+        var color = renderer.color;
+        color.a = 0.5f;
+        renderer.color = color;
+        yield return new WaitForSeconds(iframes / 60);
+        invincible = false;
+        color.a = 1f;
+        renderer.color = color;
+    }
+
     internal void TakeKnockback(Vector2 force) {
+        if (invincible)
+            return;
         knockback = force / 3;
     }
 
