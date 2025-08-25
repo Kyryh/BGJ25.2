@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class MainCharacterController : MonoBehaviour {
@@ -30,43 +31,41 @@ public class MainCharacterController : MonoBehaviour {
     void Update() {
         if (Input.GetMouseButtonDown(0) && Feathers >= 1) {
             Feathers--;
-            Instantiate(featherPrefab, transform.position, Quaternion.Euler(0, 0, LookRotation));
+            Instantiate(featherPrefab, transform.position, Quaternion.Euler(0, 0, GetLookRotation()));
         }
 
-        velocity = Vector2.MoveTowards(velocity, MoveDirection.normalized * speed, acceleration * Time.deltaTime);
+        velocity = Vector2.MoveTowards(velocity, GetMoveDirection() * speed, acceleration * Time.deltaTime);
         Feathers = Mathf.MoveTowards(Feathers, maxFeathers, Time.deltaTime * feathersRegenRate);
     }
 
-    Vector2 MoveDirection {
-        get {
-            var direction = Vector2.zero;
+    Vector2 GetMoveDirection() {
+        var direction = Vector2.zero;
 
-            if (Input.GetKey(KeyCode.W)) {
-                direction.y += 1;
-            }
-            if (Input.GetKey(KeyCode.A)) {
-                direction.x -= 1;
-            }
-            if (Input.GetKey(KeyCode.S)) {
-                direction.y -= 1;
-            }
-            if (Input.GetKey(KeyCode.D)) {
-                direction.x += 1;
-            }
-
-            return direction;
+        if (Input.GetKey(KeyCode.W)) {
+            direction.y += 1;
         }
+        if (Input.GetKey(KeyCode.A)) {
+            direction.x -= 1;
+        }
+        if (Input.GetKey(KeyCode.S)) {
+            direction.y -= 1;
+        }
+        if (Input.GetKey(KeyCode.D)) {
+            direction.x += 1;
+        }
+
+        direction.Normalize();
+
+        return direction;
     }
 
-    float LookRotation {
-        get {
-            var rotationVector = (
-                Input.mousePosition
-                - Camera.main.WorldToScreenPoint(transform.position)
-            );
+    float GetLookRotation() {
+        var rotationVector = (
+            Input.mousePosition
+            - Camera.main.WorldToScreenPoint(transform.position)
+        );
 
-            return Mathf.Atan2(rotationVector.y, rotationVector.x) * 180 / Mathf.PI;
-        }
+        return Mathf.Atan2(rotationVector.y, rotationVector.x) * 180 / Mathf.PI;
     }
 
     private void FixedUpdate() {
