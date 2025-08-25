@@ -10,6 +10,9 @@ public class Health : MonoBehaviour {
     int maxHealth;
     int currentHealth;
 
+    Vector2 knockback;
+    Rigidbody2D rb;
+
     public UnityEvent<int, int> onHealthUpdated;
 
     public UnityEvent onDeath;
@@ -37,6 +40,7 @@ public class Health : MonoBehaviour {
     }
 
     void Awake() {
+        rb = GetComponent<Rigidbody2D>();
         HealFull();
     }
 
@@ -52,7 +56,14 @@ public class Health : MonoBehaviour {
         CurrentHealth = MaxHealth;
     }
 
-    internal void TakeKnockback(Vector2 force) {
-        throw new NotImplementedException();
+    private void FixedUpdate() {
+        rb.position += knockback;
+        knockback = Vector2.Lerp(knockback, Vector2.zero, 0.1f);
+
     }
+
+    internal void TakeKnockback(Vector2 force) {
+        knockback = force / 3;
+    }
+
 }
