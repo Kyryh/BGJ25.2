@@ -17,6 +17,9 @@ public class MainCharacterController : MonoBehaviour {
         get; private set;
     }
     public float feathersRegenRate;
+    [SerializeField]
+    FeatherProjectile featherPrefab;
+
 
     void Awake() {
         Instance = this;
@@ -25,16 +28,16 @@ public class MainCharacterController : MonoBehaviour {
     }
 
     void Update() {
-
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0) && Feathers >= 1) {
             Feathers--;
+            Instantiate(featherPrefab, transform.position, Quaternion.Euler(0, 0, LookRotation));
         }
 
-        velocity = Vector2.MoveTowards(velocity, Direction.normalized * speed, acceleration * Time.deltaTime);
+        velocity = Vector2.MoveTowards(velocity, MoveDirection.normalized * speed, acceleration * Time.deltaTime);
         Feathers = Mathf.MoveTowards(Feathers, maxFeathers, Time.deltaTime * feathersRegenRate);
     }
 
-    Vector2 Direction {
+    Vector2 MoveDirection {
         get {
             var direction = Vector2.zero;
 
@@ -52,6 +55,17 @@ public class MainCharacterController : MonoBehaviour {
             }
 
             return direction;
+        }
+    }
+
+    float LookRotation {
+        get {
+            var rotationVector = (
+                Input.mousePosition
+                - Camera.main.WorldToScreenPoint(transform.position)
+            );
+
+            return Mathf.Atan2(rotationVector.y, rotationVector.x) * 180 / Mathf.PI;
         }
     }
 
