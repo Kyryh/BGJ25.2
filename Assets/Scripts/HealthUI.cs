@@ -1,11 +1,11 @@
 using UnityEngine;
 
 public class HealthUI : MonoBehaviour {
-    void Start() {
+    void Awake() {
 
     }
 
-    void Update() {
+    public void UpdateHealth(int currentHealth, int maxHealth) {
 
     }
 }
