@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class Health : MonoBehaviour {
+
+    public bool evil;
 
     [SerializeField]
     int maxHealth;
@@ -49,4 +52,7 @@ public class Health : MonoBehaviour {
         CurrentHealth = MaxHealth;
     }
 
+    internal void TakeKnockback(Vector2 force) {
+        throw new NotImplementedException();
+    }
 }

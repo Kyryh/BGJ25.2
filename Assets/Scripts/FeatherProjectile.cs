@@ -9,7 +9,7 @@ public class FeatherProjectile : MonoBehaviour {
     }
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.TryGetComponent<Health>(out var health)
-            && !collision.TryGetComponent<MainCharacterController>(out _)
+            && health.evil
         ) {
             health.CurrentHealth -= 1;
             Destroy(gameObject);
