@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour {
 
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) {
+    private void OnTriggerStay2D(Collider2D collision) {
         if (collision.TryGetComponent<Health>(out var health) && !health.evil) {
             health.TakeDamage(1);
             health.TakeKnockback((collision.transform.position - transform.position).normalized);
