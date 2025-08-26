@@ -7,6 +7,10 @@ public class FeatherProjectile : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
         rb.linearVelocity = transform.right * speed;
     }
+
+    private void OnBecameInvisible() {
+        Destroy(gameObject);
+    }
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.TryGetComponent<Health>(out var health)
             && health.evil
