@@ -1,8 +1,28 @@
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
     [SerializeField]
-    Enemy enemyPrefab;
+    Enemy[] enemyPrefabs = new Enemy[4];
+
+    [SerializeField]
+    float[] enemySpawnChance = new float[10];
+
+    [SerializeField]
+    Weights[] enemyTypeWeights = new Weights[10];
+
+    [System.Serializable]
+    class Weights {
+        [SerializeField]
+        int[] arr = new int[4];
+
+        public int this[int i] {
+            get => arr[i];
+        }
+        public int Sum() {
+            return arr.Sum();
+        }
+    }
 
     public static GameManager Instance {
         get; private set;
@@ -14,9 +34,28 @@ public class GameManager : MonoBehaviour {
         Instance = this;
     }
 
-    void Update() {
-        var position = RandomPointOnUnitCircle() * 25;
-        Instantiate(enemyPrefab, position, Quaternion.identity);
+
+    void FixedUpdate() {
+        var time = Time.timeSinceLevelLoad;
+
+        var phase = (int)(time / 30);
+
+        if (Random.value < enemySpawnChance[phase] * Time.fixedDeltaTime) {
+            var weights = enemyTypeWeights[phase];
+
+            var random = Random.Range(0, weights.Sum());
+            int i;
+
+            for (i = 0; weights[i] <= random; i++) {
+                random -= weights[i];
+            }
+
+            var enemyPrefab = enemyPrefabs[i];
+
+            var position = RandomPointOnUnitCircle() * 25;
+            Instantiate(enemyPrefab, position, Quaternion.identity);
+
+        }
     }
 
     static Vector2 RandomPointOnUnitCircle() {
