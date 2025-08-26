@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour {
+public class CommonEnemy : MonoBehaviour {
     Rigidbody2D rb;
+    Health health;
     [SerializeField]
     float speed;
     Vector3 GetTarget() {
@@ -9,6 +10,7 @@ public class Enemy : MonoBehaviour {
     }
     void Awake() {
         rb = GetComponent<Rigidbody2D>();
+        health = GetComponent<Health>();
     }
 
     void Update() {

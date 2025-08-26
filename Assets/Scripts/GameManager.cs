@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
     [SerializeField]
-    Enemy[] enemyPrefabs = new Enemy[4];
+    CommonEnemy[] enemyPrefabs = new CommonEnemy[4];
 
     [SerializeField]
     float[] enemySpawnChance = new float[10];
