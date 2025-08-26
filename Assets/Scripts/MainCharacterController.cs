@@ -65,7 +65,7 @@ public class MainCharacterController : MonoBehaviour {
             - Camera.main.WorldToScreenPoint(transform.position)
         );
 
-        return Mathf.Atan2(rotationVector.y, rotationVector.x) * 180 / Mathf.PI;
+        return Mathf.Atan2(rotationVector.y, rotationVector.x) * Mathf.Rad2Deg;
     }
 
     private void FixedUpdate() {
