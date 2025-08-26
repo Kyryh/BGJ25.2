@@ -13,6 +13,7 @@ public class Health : MonoBehaviour {
     bool invincible = false;
 
     public bool evil;
+    public bool immovable;
 
     [SerializeField]
     int maxHealth;
@@ -68,8 +69,10 @@ public class Health : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        rb.position += knockback;
-        knockback = Vector2.Lerp(knockback, Vector2.zero, 0.1f);
+        if (rb) {
+            rb.position += knockback;
+            knockback = Vector2.Lerp(knockback, Vector2.zero, 0.1f);
+        }
 
     }
 

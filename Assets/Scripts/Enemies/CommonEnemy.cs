@@ -24,9 +24,13 @@ public class CommonEnemy : MonoBehaviour {
     }
 
     private void OnTriggerStay2D(Collider2D collision) {
-        if (collision.TryGetComponent<Health>(out var health) && !health.evil) {
-            health.TakeDamage(1);
-            health.TakeKnockback((collision.transform.position - transform.position).normalized);
+        if (collision.TryGetComponent<Health>(out var other) && !other.evil) {
+            other.TakeDamage(1);
+            if (other.immovable) {
+                health.TakeKnockback((transform.position - collision.transform.position).normalized);
+            } else {
+                other.TakeKnockback((collision.transform.position - transform.position).normalized);
+            }
         }
     }
 }
