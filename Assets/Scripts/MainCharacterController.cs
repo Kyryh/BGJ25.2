@@ -1,10 +1,15 @@
+using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class MainCharacterController : MonoBehaviour {
     public static MainCharacterController Instance {
         get; private set;
     }
+
+    // Scream
+    bool screamAvailable = true;
 
     // Movement
     Rigidbody2D rb;
@@ -34,8 +39,31 @@ public class MainCharacterController : MonoBehaviour {
             Instantiate(featherPrefab, transform.position, Quaternion.Euler(0, 0, GetLookRotation()));
         }
 
+        if (Input.GetMouseButtonDown(1) && screamAvailable) {
+            StartCoroutine(Scream());
+        }
+
         velocity = Vector2.MoveTowards(velocity, GetMoveDirection() * speed, acceleration * Time.deltaTime);
         Feathers = Mathf.MoveTowards(Feathers, maxFeathers, Time.deltaTime * feathersRegenRate);
+    }
+
+
+    private IEnumerator Scream() {
+        screamAvailable = false;
+
+        var direction = GetLookDirection();
+
+        var enemies = Physics2D.OverlapCircleAll(
+            transform.position + (Vector3)direction * 1.5f,
+            1.5f
+        );
+        foreach (var enemy in enemies) {
+            if (enemy.TryGetComponent<Health>(out var health) && health.evil) {
+                health.TakeKnockback(direction);
+            }
+        }
+        yield return new WaitForSeconds(1);
+        screamAvailable = true;
     }
 
     Vector2 GetMoveDirection() {
@@ -59,11 +87,16 @@ public class MainCharacterController : MonoBehaviour {
         return direction;
     }
 
-    float GetLookRotation() {
+    Vector2 GetLookDirection() {
         var rotationVector = (
             Input.mousePosition
             - Camera.main.WorldToScreenPoint(transform.position)
         );
+        rotationVector.Normalize();
+        return rotationVector;
+    }
+    float GetLookRotation() {
+        var rotationVector = GetLookDirection();
 
         return Mathf.Atan2(rotationVector.y, rotationVector.x) * Mathf.Rad2Deg;
     }
