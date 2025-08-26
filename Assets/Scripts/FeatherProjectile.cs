@@ -16,6 +16,10 @@ public class FeatherProjectile : MonoBehaviour {
             && health.evil
         ) {
             health.CurrentHealth -= 1;
+            if (health.CurrentHealth == 0) {
+                var direction = transform.right;
+                health.TakeKnockback(direction);
+            }
             Destroy(gameObject);
         }
     }

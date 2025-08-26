@@ -6,8 +6,7 @@ using UnityEngine.UIElements;
 
 public class Health : MonoBehaviour {
 
-    [SerializeField]
-    new SpriteRenderer renderer;
+    public new SpriteRenderer renderer;
     [SerializeField]
     float iframes;
     bool invincible = false;

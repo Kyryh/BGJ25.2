@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class CommonEnemy : MonoBehaviour {
@@ -13,8 +15,18 @@ public class CommonEnemy : MonoBehaviour {
         health = GetComponent<Health>();
     }
 
-    void Update() {
+    public void Die() {
+        StartCoroutine(DieCoroutine());
+    }
 
+    IEnumerator DieCoroutine() {
+        var color = health.renderer.color;
+        while (color.a > 0) {
+            color.a -= Time.deltaTime * 3;
+            health.renderer.color = color;
+            yield return null;
+        }
+        Destroy(gameObject);
     }
 
     private void FixedUpdate() {

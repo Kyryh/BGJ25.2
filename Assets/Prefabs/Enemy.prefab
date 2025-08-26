@@ -119,9 +119,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2579c5bc0481da44ac56c7a90714c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  renderer: {fileID: 0}
+  renderer: {fileID: 8599607586375460427}
   iframes: 0
   evil: 1
+  immovable: 0
   maxHealth: 3
   onHealthUpdated:
     m_PersistentCalls:
@@ -129,13 +130,13 @@ MonoBehaviour:
   onDeath:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2455153747702434217}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
+      - m_Target: {fileID: 5014932642195465001}
+        m_TargetAssemblyTypeName: CommonEnemy, Assembly-CSharp
+        m_MethodName: Die
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
