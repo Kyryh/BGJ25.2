@@ -11,8 +11,8 @@ public class CameraFollow : MonoBehaviour {
         var playerPos = player.transform.position;
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         var target = (playerPos + mousePos) / 2;
-        target.x = Mathf.Clamp(target.x, -12, 12);
-        target.y = Mathf.Clamp(target.y, -7, 7);
+        target.x = Mathf.Clamp(target.x, -11, 11);
+        target.y = Mathf.Clamp(target.y, -6, 6);
         target.z = transform.position.z;
         transform.position = Vector3.Lerp(transform.position, target, lerp);
     }
